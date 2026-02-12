@@ -2,7 +2,7 @@ package ru.festtur.telegramdummy.client;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
-import ru.festtur.telegramdummy.reference.dto.FullQuestionResponse;
+import ru.festtur.telegramdummy.reference.dto.question.FullQuestionResponse;
 
 import java.util.List;
 

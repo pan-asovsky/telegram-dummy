@@ -1,4 +1,4 @@
-package ru.festtur.telegramdummy.reference.dto;
+package ru.festtur.telegramdummy.reference.dto.question;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

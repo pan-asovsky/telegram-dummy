@@ -1,4 +1,4 @@
-package ru.festtur.telegramdummy.reference.dto;
+package ru.festtur.telegramdummy.reference.dto.question;
 
 public record ValidationResult(boolean isValid, String errorMessage) {
 

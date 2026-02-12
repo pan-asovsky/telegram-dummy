@@ -3,7 +3,7 @@ package ru.festtur.telegramdummy.reference.enums;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ru.festtur.telegramdummy.reference.dto.ValidationResult;
+import ru.festtur.telegramdummy.reference.dto.question.ValidationResult;
 
 import java.util.regex.Pattern;
 

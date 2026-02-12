@@ -1,6 +1,6 @@
 package ru.festtur.telegramdummy.facade;
 
-import ru.festtur.telegramdummy.reference.dto.AnswerResult;
+import ru.festtur.telegramdummy.reference.dto.question.AnswerResult;
 
 public interface IEmulateFacade {
     void loadQuestions();

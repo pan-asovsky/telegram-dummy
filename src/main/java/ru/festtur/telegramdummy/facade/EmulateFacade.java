@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.festtur.telegramdummy.client.QuestionApiClient;
-import ru.festtur.telegramdummy.reference.dto.AnswerResult;
-import ru.festtur.telegramdummy.reference.dto.FullQuestionResponse;
-import ru.festtur.telegramdummy.reference.dto.ValidationResult;
+import ru.festtur.telegramdummy.reference.dto.question.AnswerResult;
+import ru.festtur.telegramdummy.reference.dto.question.FullQuestionResponse;
+import ru.festtur.telegramdummy.reference.dto.question.ValidationResult;
 
 import java.util.ArrayList;
 import java.util.Comparator;
