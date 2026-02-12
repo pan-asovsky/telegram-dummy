@@ -1,0 +1,12 @@
+server:
+  port: 8085
+
+clients:
+  core-api:
+    url: http://localhost:8420/api/v1/core
+    questions:
+      url: ${clients.core-api.url}/questions
+    tours:
+      url: ${clients.core-api.url}/tours
+    table:
+      url: ${clients.core-api.url}/table
