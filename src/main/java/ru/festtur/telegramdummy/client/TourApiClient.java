@@ -3,6 +3,7 @@ package ru.festtur.telegramdummy.client;
 import jakarta.validation.Valid;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.festtur.telegramdummy.reference.dto.tour.FullTourResponse;
@@ -24,7 +25,7 @@ public interface TourApiClient {
     @GetMapping("/by-type")
     List<ShortTourResponse> byType(@RequestParam("type") TourType type);
 
-    @GetMapping("/by-params")
+    @PostMapping("/by-params")
     FullTourResponse byParams(@RequestBody @Valid TourRequest request);
 
 }

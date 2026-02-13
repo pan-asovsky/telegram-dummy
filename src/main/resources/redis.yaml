@@ -7,5 +7,5 @@ spring:
       lettuce:
         pool:
           max-active: 8
-          max-idle: 4
-          min-idle: 0
+          max-idle: 6
+          min-idle: 2

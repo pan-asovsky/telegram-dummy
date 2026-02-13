@@ -1,5 +1,6 @@
 package ru.festtur.telegramdummy.reference.dto.tour;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class FullTourResponse {
     private String code;
+    @JsonProperty("active")
     private boolean isActive;
     private TourType type;
     private String direction;
