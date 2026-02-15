@@ -12,6 +12,8 @@ import tools.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -24,17 +26,42 @@ public class SessionRepo implements ISessionRepo {
     private static final String SESSION_KEY = "session:";
 
     @Override
+    public Optional<BookingSession> find(final Long userId) {
+        var key = SESSION_KEY + userId;
+        var entries = template.opsForHash().entries(key);
+        if (entries == null || entries.isEmpty()) return Optional.empty();
+
+        try {
+            var json = entries.entrySet()
+                .stream()
+                .collect(Collectors.toMap(
+                    e -> e.getKey().toString(),
+                    e -> e.getValue().toString()
+                ));
+            var session = mapper.convertValue(json, BookingSession.class);
+            return Optional.of(session);
+        } catch (Exception e) {
+            throw new IllegalStateException("failed to restore session for user: %d".formatted(userId), e);
+        }
+    }
+
+    @Override
     public void save(final Long userId, final BookingSession session) {
         final var key = SESSION_KEY + userId;
         final var args = new ArrayList<String>();
 
-        addArg(args, Field.TOUR_CODE, session.getTourCode());
+        addArg(args, Field.USER_ID, session.getUserId());
+        addArg(args, Field.STEP, session.getStep());
+        addArg(args, Field.TOUR_TYPE, session.getType());
+        addArg(args, Field.DESTINATION, session.getDestination());
+        addArg(args, Field.TOUR_CODE, session.getCode());
         addArg(args, Field.DATES, session.getDates());
         addArg(args, Field.PARTICIPANTS, session.getParticipants());
         addArg(args, Field.ANSWERS, session.getAnswers());
+        addArg(args, Field.TOTAL_QUESTIONS, session.getTotalQuestions());
         addArg(args, Field.QUESTION_INDEX, session.getCurrentQuestionIndex());
         addArg(args, Field.SEATS, session.getSeats());
-        addArg(args, Field.PLACEMENT, session.getPlacement());
+        addArg(args, Field.ACCOMMODATION, session.getAccommodation());
 
         if (args.isEmpty()) return;
 
@@ -43,6 +70,12 @@ public class SessionRepo implements ISessionRepo {
             Collections.singletonList(key),
             args.toArray()
         );
+    }
+
+    @Override
+    public void delete(final Long userId) {
+        var key = SESSION_KEY + userId;
+        template.delete(key);
     }
 
     private void addArg(final List<String> args, final Field f, final Object val) {
@@ -63,13 +96,18 @@ public class SessionRepo implements ISessionRepo {
     @Getter
     @RequiredArgsConstructor
     enum Field {
-        TOUR_CODE("tourCode"),
+        USER_ID("userId"),
+        STEP("step"),
+        TOUR_TYPE("type"),
+        DESTINATION("destination"),
+        TOUR_CODE("code"),
         DATES("dates"),
         PARTICIPANTS("participants"),
         ANSWERS("answers"),
+        TOTAL_QUESTIONS("totalQuestions"),
         QUESTION_INDEX("questionIndex"),
         SEATS("seats"),
-        PLACEMENT("placement");
+        ACCOMMODATION("accommodation");
 
         private final String value;
     }

@@ -6,12 +6,10 @@ import org.springframework.stereotype.Component;
 import ru.festtur.telegramdummy.client.QuestionApiClient;
 import ru.festtur.telegramdummy.client.TourApiClient;
 import ru.festtur.telegramdummy.reference.dto.BookingSession;
-import ru.festtur.telegramdummy.reference.dto.question.AnswerEntry;
 import ru.festtur.telegramdummy.reference.dto.question.AnswerResponse;
 import ru.festtur.telegramdummy.reference.dto.question.FullQuestionResponse;
 import ru.festtur.telegramdummy.reference.dto.question.ValidationResult;
 import ru.festtur.telegramdummy.reference.dto.tour.ShortTourResponse;
-import ru.festtur.telegramdummy.reference.dto.tour.TourDates;
 import ru.festtur.telegramdummy.reference.dto.tour.TourRequest;
 import ru.festtur.telegramdummy.repository.SessionRepo;
 
@@ -54,19 +52,18 @@ public class EmulateFacade implements IEmulateFacade {
             .flatMap(List::stream)
             .map(dr -> dr.getStart() + "-" + dr.getEnd())
             .collect(Collectors.joining(" , "));
+
+        sessionRepo.save(
+            DEFAULT_USER_ID,
+            BookingSession.startWithTourCode(DEFAULT_USER_ID, 1, code)
+        );
+
         return AnswerResponse.nextQuestion(tourDates);
     }
 
     @Override
     public AnswerResponse processTour(final TourRequest r) {
         var tour = tApiClient.byParams(r);
-        sessionRepo.save(
-            DEFAULT_USER_ID,
-            BookingSession.builder()
-                .tourCode(r.getCode())
-                .dates(new TourDates(r.getStart(), r.getEnd()))
-                .build()
-        );
         return AnswerResponse.nextQuestion(tour.toString());
     }
 
@@ -79,13 +76,6 @@ public class EmulateFacade implements IEmulateFacade {
             .validate(answer, question.getErrorMessage());
 
         if (!vr.isValid()) return AnswerResponse.error(vr.errorMessage());
-
-        sessionRepo.save(
-            DEFAULT_USER_ID,
-            BookingSession.builder()
-                .answers(List.of(new AnswerEntry(question.getCode(), answer)))
-                .build()
-        );
 
         CURRENT_INDEX += 1;
         return CURRENT_INDEX >= QUESTIONS.size()
