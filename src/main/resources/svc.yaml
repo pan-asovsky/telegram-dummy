@@ -10,3 +10,5 @@ clients:
       url: ${clients.core-api.url}/tours
     table:
       url: ${clients.core-api.url}/table
+    flow:
+      url: ${client.core-api.url}/flow

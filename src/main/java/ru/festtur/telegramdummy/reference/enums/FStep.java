@@ -1,6 +1,6 @@
 package ru.festtur.telegramdummy.reference.enums;
 
-public enum FlowStep {
+public enum FStep {
     SELECT_TYPE,
     SELECT_DESTINATION,
     SELECT_CODE,
@@ -8,5 +8,6 @@ public enum FlowStep {
     SELECT_PARTICIPANTS,
     ANSWER_QUESTIONS,
     SELECT_BUS_SEATS,
-    SELECT_ACCOMMODATION
+    SELECT_ACCOMMODATION,
+    CONFIRM
 }

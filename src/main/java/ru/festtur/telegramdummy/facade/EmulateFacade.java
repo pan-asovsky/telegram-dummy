@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.festtur.telegramdummy.client.QuestionApiClient;
 import ru.festtur.telegramdummy.client.TourApiClient;
-import ru.festtur.telegramdummy.reference.dto.BookingSession;
 import ru.festtur.telegramdummy.reference.dto.question.AnswerResponse;
 import ru.festtur.telegramdummy.reference.dto.question.FullQuestionResponse;
 import ru.festtur.telegramdummy.reference.dto.question.ValidationResult;
@@ -52,11 +51,6 @@ public class EmulateFacade implements IEmulateFacade {
             .flatMap(List::stream)
             .map(dr -> dr.getStart() + "-" + dr.getEnd())
             .collect(Collectors.joining(" , "));
-
-        sessionRepo.save(
-            DEFAULT_USER_ID,
-            BookingSession.startWithTourCode(DEFAULT_USER_ID, 1, code)
-        );
 
         return AnswerResponse.nextQuestion(tourDates);
     }
